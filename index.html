@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        a {
+            color: #4183C4;
+            text-decoration: none;
+        }
+
+        p {
+            line-height: 20px;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        #abs {
+            text-align: center;
+        }
+
+        #abs .descriptor {
+            display: none;
+        }
+
+        #abs h1.title {
+            margin: .5em 0 .5em 20px;
+            font-size: x-large;
+            font-weight: bold;
+            line-height: 120%;
+        }
+
+        #abs .authors {
+            margin: .5em 0 .5em 20px;
+            font-size: medium;
+            line-height: 150%;
+        }
+
+        #abs .authors a {
+            font-size: medium;
+        }
+
+        #abs p {
+            text-align: justify;
+        }
+
+        .bib {
+            font-size: small;
+        }
+
+        .figure {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="abs">
+        <h1>Divergence Triangle for Joint Training of Generator Model, Energy-based Model, and Inference Model</h1>
+        <div class="authors"><a href="mailto:hantian@ucla.edu">Tian Han</a><sup>1,*</sup>, <a href="mailto:enijkamp@ucla.edu">Erik Nijkamp</a><sup>1,*</sup>, <a href="mailto:xiaolinfang@zju.edu.cn">Xiaolin Fang</a><sup>2</sup>, <a href="mailto:mkhill@ucla.edu">Mitch Hill</a><sup>1</sup>, <a href="mailto:sczhu@stat.ucla.edu">Song-Chun Zhu</a><sup>1</sup>, <a href="mailto:ywu@stat.ucla.edu">Ying Nian Wu</a><sup>1</sup></div>
+        <div class="inst">
+            <sup>*</sup> Equal contributions<br>
+            <sup>1</sup> University of California, Los Angeles (UCLA), USA<br>
+            <sup>2</sup> College of Computer Science and Technology, Zhejiang University, China
+        </div>
+        <h2>Abstract</h2>
+        <p>This paper proposes the divergence triangle as a framework for joint training of generator model, energy-based model and inference model. The divergence triangle is a compact and symmetric (anti-symmetric) objective function that seamlessly integrates variational learning, adversarial learning, wake-sleep algorithm, and contrastive divergence in a unified probabilistic formulation. This unification makes the processes of sampling, inference, energy evaluation readily available without the need for costly Markov chain Monte Carlo methods. Our experiments demonstrate that the divergence triangle is capable of learning (1) an energy-based model with well-formed energy landscape, (2) direct sampling in the form of a generator network, and (3) feed-forward inference that faithfully reconstructs observed as well as synthesized data. The divergence triangle is a robust training method that can learn from incomplete data.
+        <p>
+    </div>
+    <hr>
+    <h2>Paper</h2>
+    The publication can be obtained <a href="https://arxiv.org/abs/1812.10907">here</a>.
+    <pre class="bib">
+@article{han2018divergence,
+  title={Divergence Triangle for Joint Training of Generator Model, Energy-based Model, and Inference Model},
+  author={Han, Tian and Nijkamp, Erik and Fang, Xiaolin and Hill, Mitch and Zhu, Song-Chun and Wu, Ying Nian},
+  journal={arXiv preprint arXiv:1812.10907},
+  year={2018}
+}
+</pre>
+    <h2>Code</h2>
+    <p>The code can be obtained <a href="http://github.com">here</a>.</p>
+    <hr>
+    <h2>Experiments</h2>
+    <h3>Experiment 1: Object Synthesis on Large-scale Dataset</h3>
+    <p>For object categories, we test our model on two commonly-used datasets of natural images: CIFAR-10 and CelebA (Liu et al., 2015). For CelebA face dataset, we randomly select 9,000 images for training and another 1,000 images for testing in reconstruction task. The face images are resized to 64 &times; 64 and CIFAR-10 images remain 32 &times; 32. The qualitative results of generated samples for objects are shown in Figure 1.</p>
+    <div class="figure">
+        <img src="./figure/cifar10/510_samples_small.jpg" width="390">
+        <img src="./figure/celeba9000/triangle_799_samples_small.jpg" width="390">
+        <p class="caption"><b>Figure 1:</b> Generated samples. Left: generated samples on CIFAR-10 dataset. Right: generated samples on CelebA dataset.</p>
+    </div>
+    <h3>Experiment 2: Object Synthesis on Large-scale Dataset</h3>
+    <p>We also train our model on large scale datasets including down-sampled 32 &times; 32 version of ImageNet (Oord et al., 2016), (Russakovsky et al., 2015), (roughly 1 million images) and Large-scale Scene Understand (LSUN) dataset (Yu et al., 2015). For the LSUN dataset, we consider the bedroom, tower and Church ourdoor categories which contains roughly 3 million, 0.7 million and 0.1 million images and were re-sized to 64 &times; 64. Generated samples are shown in Figure 2.</p>
+    <div class="figure">
+        <img src="./figure/large_scale/epoch_005_iter_3600_samples_imagenet_small.jpg" width="390">
+        <img src="./figure/large_scale/epoch_002_iter_28000_samples_bed_small.jpg" width="390">
+        <p class="caption"><b>Figure 2:</b> Generated samples. Left: 32 &times; 32 ImageNet. Right: 64 &times; 64 LSUN(bedroom).</p>
+    </div>
+    <h3>Experiment 3: High-resolution Synthesis</h3>
+    <p>For high-resolution synthesis, we recruit a layer-wise training scheme to learn models on CelebA-HQ (Karras et al., 2017) with resolutions of up to 1024 &times; 1024 pixels. Figure 3 depicts high-fidelity synthesis in a resolution of 1024 &times; 1024 pixels sampled from the generator model g<sub>&theta;</sub>(z) on CelebA-HQ. Figure 4 illustrates linear interpolation in latent space (i.e., (1− &alpha;) &middot; z<sub>0</sub> + &alpha; &middot; z<sub>1</sub>), which indicates diversity in the samples.</p>
+    <div class="figure">
+        <img src="./figure/celeba_hq/syn/gen_1_by_6_v3_small.jpg" width="812">
+        <p class="caption"><b>Figure 3:</b> Generated samples with 1024 &times; 1024 resolution drawn from g<sub>&theta;</sub>(z) with 512-dimensional latent vector z &#8764; N(0,I<sub>d</sub>) for Celeba-HQ.</p>
+        <img src="./figure/celeba_hq/inter/gen_7_8_4450_inter_small.jpg" width="812">
+        <img src="./figure/celeba_hq/inter/gen_7_8_1850_inter_small.jpg" width="812">
+        <p class="caption"><b>Figure 4:</b> High-resolution synthesis from the generator model g<sub>&theta;</sub>(z) with linear interpolation in latent space (i.e., (1− &alpha;) &middot; z<sub>0</sub> + &alpha; &middot; z<sub>1</sub> for Celeba-HQ.</p>
+    </div>
+    <hr>
+    <h2>Acknowledgements</h2>
+    <p>The work is supported by DARPA XAI project N66001-17-2-4029; ARO project W911NF1810296; and ONR MURI project N00014-16-1-2007; and XSEDE grant ASC170063. We thank Dr. Tianfu Wu, Shuai Zhu and Bo Pang for helpful discussions.</p>
+</div>
+</body>
+</html>
